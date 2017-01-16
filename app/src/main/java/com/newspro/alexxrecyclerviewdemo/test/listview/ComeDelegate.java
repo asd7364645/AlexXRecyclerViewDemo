@@ -1,10 +1,11 @@
-package com.newspro.alexxrecyclerviewdemo.test;
+package com.newspro.alexxrecyclerviewdemo.test.listview;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.newspro.alexxrecyclerviewdemo.R;
 import com.newspro.alexxrecyclerviewdemo.bean.User;
-import com.newspro.xbaseadapter.ordinarylistview.XViewHolder;
+import com.newspro.xbaseadapter.ordinarylistview.XLvViewHolder;
 import com.newspro.xbaseadapter.ordinarylistview.delegate.ItemViewDelegate;
 
 /**
@@ -24,8 +25,16 @@ public class ComeDelegate implements ItemViewDelegate<User> {
     }
 
     @Override
-    public void convert(XViewHolder holder, User item, int position) {
+    public void convert(XLvViewHolder holder, User item, int position) {
         TextView textView = holder.getItemView(R.id.userNameTwo);
         textView.setText(item.getName());
+        ProgressBar progressBar = holder.getItemView(R.id.userSize);
+        progressBar.setProgress(item.getSize());
+    }
+
+    @Override
+    public void convertByPosi(XLvViewHolder holder, User item, int position) {
+        ProgressBar progressBar = holder.getItemView(R.id.userSize);
+        progressBar.setProgress(item.getSize());
     }
 }

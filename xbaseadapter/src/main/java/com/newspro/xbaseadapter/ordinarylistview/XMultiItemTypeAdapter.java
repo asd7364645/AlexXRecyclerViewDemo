@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.newspro.xbaseadapter.ordinarylistview.delegate.ItemViewDelegate;
 import com.newspro.xbaseadapter.ordinarylistview.delegate.ItemViewDelegateManager;
@@ -30,7 +31,7 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
         itemViewDelegateManager = new ItemViewDelegateManager<>();
     }
 
-    public XMultiItemTypeAdapter<T> addDelegate(ItemViewDelegate<T> itemViewDelegate){
+    public XMultiItemTypeAdapter<T> addDelegate(ItemViewDelegate<T> itemViewDelegate) {
         itemViewDelegateManager.addDelegate(itemViewDelegate);
         return this;
     }
@@ -47,22 +48,22 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (useItemViewDelegateManager()){
-            return itemViewDelegateManager.getItemViewType(mDatas.get(position),position);
+        if (useItemViewDelegateManager()) {
+            return itemViewDelegateManager.getItemViewType(mDatas.get(position), position);
         }
         return super.getItemViewType(position);
     }
 
     @Override
     public int getViewTypeCount() {
-        if (useItemViewDelegateManager()){
+        if (useItemViewDelegateManager()) {
             return itemViewDelegateManager.getDelegateCount();
         }
         return super.getViewTypeCount();
     }
 
     private boolean useItemViewDelegateManager() {
-        return itemViewDelegateManager.getDelegateCount()>0;
+        return itemViewDelegateManager.getDelegateCount() > 0;
     }
 
     @Override
@@ -74,17 +75,15 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ItemViewDelegate itemViewDelegate = itemViewDelegateManager.getItemViewDelegate(mDatas.get(position), position);
         int layoutId = itemViewDelegate.getLayoutId();
-        XViewHolder viewHolder;
-        if (convertView == null)
-        {
+        XLvViewHolder viewHolder;
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(layoutId, parent,
                     false);
-            viewHolder = new XViewHolder(context, convertView, position);
+            viewHolder = new XLvViewHolder(context, convertView, position);
             viewHolder.setLayoutId(layoutId);
-            onViewHolderCreated(viewHolder,viewHolder.getmConvertView());
-        } else
-        {
-            viewHolder = (XViewHolder) convertView.getTag();
+            onViewHolderCreated(viewHolder, viewHolder.getmConvertView());
+        } else {
+            viewHolder = (XLvViewHolder) convertView.getTag();
             viewHolder.setPosition(position);
         }
 
@@ -93,11 +92,38 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    protected void convert(XViewHolder viewHolder, T item, int position) {
+    protected void convert(XLvViewHolder viewHolder, T item, int position) {
         itemViewDelegateManager.convert(viewHolder, item, position);
     }
 
-    public void onViewHolderCreated(XViewHolder viewHolder, View view) {
+    public void onViewHolderCreated(XLvViewHolder viewHolder, View view) {
+    }
+
+    public ItemViewDelegate<T> getItemDelegate(T item, int posi) {
+        return itemViewDelegateManager.getItemViewDelegate(item, posi);
+    }
+
+    /**
+     * 局部刷新
+     * @param mListView
+     * @param item
+     * @param posi
+     */
+    public void updateSingleRow(ListView mListView, T item, int posi) {
+        if (mListView != null) {
+            int visiblePos = mListView.getFirstVisiblePosition();
+            int offset = posi - visiblePos;
+            int lenth = mListView.getChildCount();
+            // 只有在可见区域才更新,因为不在可见区域得不到Tag,会出现空指针,所以这是必须有的一个步骤
+            if ((offset < 0) || (offset >= lenth)) return;
+            View convertView = mListView.getChildAt(offset);
+            XLvViewHolder xLvViewHolder = (XLvViewHolder) convertView.getTag();
+            convertByPosi(xLvViewHolder, item, posi);
+        }
+    }
+
+    private void convertByPosi(XLvViewHolder xLvViewHolder, T item, int posi) {
+        itemViewDelegateManager.convertByPosi(xLvViewHolder,item,posi);
     }
 
 

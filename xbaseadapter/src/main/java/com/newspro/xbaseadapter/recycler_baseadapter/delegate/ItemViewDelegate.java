@@ -1,6 +1,6 @@
-package com.newspro.xbaseadapter.ordinarylistview.delegate;
+package com.newspro.xbaseadapter.recycler_baseadapter.delegate;
 
-import com.newspro.xbaseadapter.ordinarylistview.XLvViewHolder;
+import com.newspro.xbaseadapter.recycler_baseadapter.XRvViewHolder;
 
 /**
  * Created by Alex on 2017/1/12.
@@ -24,7 +24,7 @@ public interface ItemViewDelegate<T> {
      * @param position
      * @return
      */
-    boolean isForViewType(T item,int position);
+    boolean isForViewType(T item, int position);
 
     /**
      * 设置内容
@@ -32,7 +32,7 @@ public interface ItemViewDelegate<T> {
      * @param item
      * @param position
      */
-    void convert(XLvViewHolder holder, T item, int position);
+    void convert(XRvViewHolder holder, T item, int position);
 
     /**
      * 在局部刷新中可能只刷新某个控件，而并非convert中设置全部控件，所以单独抽出留给用户自定义
@@ -40,6 +40,6 @@ public interface ItemViewDelegate<T> {
      * @param item
      * @param position
      */
-    void convertByPosi(XLvViewHolder holder, T item, int position);
+    void convertByPosi(XRvViewHolder holder, T item, int position);
 
 }

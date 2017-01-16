@@ -11,10 +11,17 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:text="@string/app_name"
         android:id="@+id/userNameTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp" />
+
+    <ProgressBar
+        android:id="@+id/userSize"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -1,9 +1,10 @@
-package com.newspro.xbaseadapter.ordinarylistview.delegate;
+package com.newspro.xbaseadapter.recycler_baseadapter.delegate;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.SparseArrayCompat;
 
-import com.newspro.xbaseadapter.ordinarylistview.XLvViewHolder;
+import com.newspro.xbaseadapter.recycler_baseadapter.XRvViewHolder;
+
 
 /**
  * Created by Alex on 2017/1/12.
@@ -25,6 +26,7 @@ public class ItemViewDelegateManager<T> {
 
     /**
      * 得到类别的个数
+     *
      * @return
      */
     public int getDelegateCount() {
@@ -39,7 +41,7 @@ public class ItemViewDelegateManager<T> {
      */
     public ItemViewDelegateManager<T> addDelegate(@NonNull ItemViewDelegate<T> itemViewDelegate) {
         int viewType = delegates.size();
-        return addDelegate(viewType,itemViewDelegate);
+        return addDelegate(viewType, itemViewDelegate);
     }
 
     /**
@@ -53,7 +55,7 @@ public class ItemViewDelegateManager<T> {
         if (delegates.get(viewType) != null)
             throw new IllegalArgumentException("已经存在这个类别，类别：" + viewType + "类别对象为：" + delegates.get(viewType));
 
-        if (viewType>=Integer.MAX_VALUE){
+        if (viewType >= Integer.MAX_VALUE) {
             throw new IllegalArgumentException("类别过大，建议在Integer最大值之内");
         }
 
@@ -65,35 +67,37 @@ public class ItemViewDelegateManager<T> {
 
     /**
      * 得到item的类别
+     *
      * @param item
      * @param posi
      * @return
      */
-    public int getItemViewType(T item,int posi){
+    public int getItemViewType(T item, int posi) {
         int size = delegates.size();
         for (int i = 0; i < size; i++) {
             //拿到当前delegate，判断delegate是否为当前所在的类别
             ItemViewDelegate<T> itemViewDelegate = delegates.valueAt(i);
             //如果是则返回
-            if (itemViewDelegate.isForViewType(item,posi)){
+            if (itemViewDelegate.isForViewType(item, posi)) {
                 return delegates.keyAt(i);
             }
         }
         throw new IllegalArgumentException("没有找到这种类别");
     }
 
-    public int getItemViewType(ItemViewDelegate<T> itemViewDelegate){
+    public int getItemViewType(ItemViewDelegate<T> itemViewDelegate) {
         return delegates.indexOfValue(itemViewDelegate);
     }
 
     /**
      * 通过实现类来删除delegates对应项
+     *
      * @param itemViewDelegate
      * @return
      */
-    public ItemViewDelegateManager<T> removeDelegate(@NonNull ItemViewDelegate<T> itemViewDelegate){
+    public ItemViewDelegateManager<T> removeDelegate(@NonNull ItemViewDelegate<T> itemViewDelegate) {
         int removePosi = delegates.indexOfValue(itemViewDelegate);
-        if (removePosi>=0){
+        if (removePosi >= 0) {
             delegates.removeAt(removePosi);
         }
         return this;
@@ -101,67 +105,42 @@ public class ItemViewDelegateManager<T> {
 
     /**
      * 通过类别来删除delegates对应项
+     *
      * @param viewType
      * @return
      */
-    public ItemViewDelegateManager<T> removeDelegate(int viewType){
+    public ItemViewDelegateManager<T> removeDelegate(int viewType) {
         delegates.remove(viewType);
         return this;
     }
 
-    public void convert(XLvViewHolder holder, T item, int posi){
+    public void convert(XRvViewHolder holder, T item, int posi) {
         int size = delegates.size();
         for (int i = 0; i < size; i++) {
             //拿到当前delegate，判断delegate是否为当前所在的类别
             ItemViewDelegate<T> itemViewDelegate = delegates.valueAt(i);
             //如果是则返回
-            if (itemViewDelegate.isForViewType(item,posi)){
-                itemViewDelegate.convert(holder,item,posi);
+            if (itemViewDelegate.isForViewType(item, posi)) {
+                itemViewDelegate.convert(holder, item, posi);
                 return;
             }
         }
         throw new IllegalArgumentException("没有找到这种类别");
     }
+
 
     /**
-     * 局部刷新需要设置的
-     * @param holder
-     * @param item
-     * @param posi
+     * 通过type来得到ItemViewDelegate
+     * @param type
+     * @return
      */
-    public void convertByPosi(XLvViewHolder holder, T item, int posi){
-        int size = delegates.size();
-        for (int i = 0; i < size; i++) {
-            //拿到当前delegate，判断delegate是否为当前所在的类别
-            ItemViewDelegate<T> itemViewDelegate = delegates.valueAt(i);
-            //如果是则返回
-            if (itemViewDelegate.isForViewType(item,posi)){
-                itemViewDelegate.convertByPosi(holder,item,posi);
-                return;
-            }
-        }
-        throw new IllegalArgumentException("没有找到这种类别");
+    public ItemViewDelegate<T> getItemViewDelegate(int type) {
+        return delegates.get(type);
     }
 
-    public ItemViewDelegate<T> getItemViewDelegate(T item,int posi){
-        int size = delegates.size();
-        for (int i = 0; i < size; i++) {
-            //拿到当前delegate，判断delegate是否为当前所在的类别
-            ItemViewDelegate<T> itemViewDelegate = delegates.valueAt(i);
-            //如果是则返回
-            if (itemViewDelegate.isForViewType(item,posi)){
-                return itemViewDelegate;
-            }
-        }
-        throw new IllegalArgumentException("没有找到这种类别");
-    }
-
-    public int getItemLayoutId(int viewType){
+    public int getItemLayoutId(int viewType) {
         return delegates.get(viewType).getLayoutId();
     }
 
-    public int getItemLayoutId(T item, int position){
-        return getItemViewDelegate(item,position).getLayoutId();
-    }
 
 }

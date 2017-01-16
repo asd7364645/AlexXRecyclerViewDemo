@@ -27,10 +27,20 @@ public abstract class XBaseAdapter<T> extends XMultiItemTypeAdapter<T> {
             }
 
             @Override
-            public void convert(XViewHolder holder, T item, int position) {
+            public void convert(XLvViewHolder holder, T item, int position) {
                 XBaseAdapter.this.convert(holder,item,position);
+            }
+
+            @Override
+            public void convertByPosi(XLvViewHolder holder, T item, int position) {
+                convertByPosition(holder,item,position);
             }
         });
     }
-    protected abstract void convert(XViewHolder viewHolder, T item, int position);
+
+    protected void convertByPosition(XLvViewHolder holder, T item, int position){
+
+    }
+
+    protected abstract void convert(XLvViewHolder viewHolder, T item, int position);
 }

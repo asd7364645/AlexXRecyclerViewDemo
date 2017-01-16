@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  * <p>
  * 通用listView,GridView的ViewHolder
  */
-public class XViewHolder {
+public class XLvViewHolder {
 
     /**
      * 存储每个Item中View的集合，方便查找控件
@@ -30,7 +30,7 @@ public class XViewHolder {
 
     private int position;
 
-    public XViewHolder(Context context, View itemView, int layoutId, int position) {
+    public XLvViewHolder(Context context, View itemView, int layoutId, int position) {
         mViews = new SparseArray<>();
         this.context = context;
         this.mConvertView = itemView;
@@ -39,7 +39,7 @@ public class XViewHolder {
         mConvertView.setTag(this);
     }
 
-    public XViewHolder(Context context, View itemView, int position) {
+    public XLvViewHolder(Context context, View itemView, int position) {
         mViews = new SparseArray<>();
         this.context = context;
         this.mConvertView = itemView;
@@ -55,27 +55,27 @@ public class XViewHolder {
      * @param layoutId
      * @return
      */
-    public static XViewHolder getHolder(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
+    public static XLvViewHolder getHolder(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
         if (convertView == null) {
             //实例化布局view
             convertView = LayoutInflater.from(context).inflate(layoutId, parent, false);
             //创建ViewHolder
-            XViewHolder xViewHolder = new XViewHolder(context, convertView, layoutId, position);
+            XLvViewHolder xLvViewHolder = new XLvViewHolder(context, convertView, layoutId, position);
             //设置布局ID
-            xViewHolder.layoutId = layoutId;
-            xViewHolder.viewHolderCreated(xViewHolder, convertView);
-            return xViewHolder;
+            xLvViewHolder.layoutId = layoutId;
+            xLvViewHolder.viewHolderCreated(xLvViewHolder, convertView);
+            return xLvViewHolder;
         } else {
             //从adapter中的convertView得到tag，
             // 因为convertView==null 创建ViewHolder的时候给convertView设置了tag了，所以这里直接拿tag
-            XViewHolder xViewHolder = (XViewHolder) convertView.getTag();
+            XLvViewHolder xLvViewHolder = (XLvViewHolder) convertView.getTag();
             //由于getTag拿到的是之前的ViewHolder,所以position可能不会更新，在这里更新
-            xViewHolder.position = position;
-            return xViewHolder;
+            xLvViewHolder.position = position;
+            return xLvViewHolder;
         }
     }
 
-    public void viewHolderCreated(XViewHolder holder, View convertView) {
+    public void viewHolderCreated(XLvViewHolder holder, View convertView) {
     }
 
     public <V extends View> V getItemView(int viewId) {

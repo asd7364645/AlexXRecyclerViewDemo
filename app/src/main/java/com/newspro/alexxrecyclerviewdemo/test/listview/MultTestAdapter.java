@@ -1,4 +1,4 @@
-package com.newspro.alexxrecyclerviewdemo.test;
+package com.newspro.alexxrecyclerviewdemo.test.listview;
 
 import android.content.Context;
 
@@ -15,6 +15,7 @@ import java.util.List;
 public class MultTestAdapter extends XMultiItemTypeAdapter<User> {
     public MultTestAdapter(Context context, List<User> mDatas) {
         super(context, mDatas);
-
+        //如果两种类别的isForViewType为同一种则报错
+        addDelegate(new ComeDelegate()).addDelegate(new MyDelegate());
     }
 }
