@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.newspro.xbaseadapter.recycler_baseadapter.delegate.ItemViewDelegate;
-import com.newspro.xbaseadapter.recycler_baseadapter.delegate.ItemViewDelegateManager;
+import com.newspro.xbaseadapter.recycler_baseadapter.delegate.RvItemViewDelegate;
+import com.newspro.xbaseadapter.recycler_baseadapter.delegate.RvItemViewDelegateManager;
 
 import java.util.List;
 
@@ -20,27 +20,27 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
     private Context context;
     private List<T> mDatas;
 
-    private ItemViewDelegateManager<T> itemViewDelegateManager;
+    private RvItemViewDelegateManager<T> rvItemViewDelegateManager;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
     public XRvMultiItemTypeAdapter(Context context, List<T> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
-        itemViewDelegateManager = new ItemViewDelegateManager<>();
+        rvItemViewDelegateManager = new RvItemViewDelegateManager<>();
     }
 
     @Override
     public int getItemViewType(int position) {
         if (useItemViewDelegateManager())
-            return itemViewDelegateManager.getItemViewType(mDatas.get(position), position);
+            return rvItemViewDelegateManager.getItemViewType(mDatas.get(position), position);
         return super.getItemViewType(position);
     }
 
     @Override
     public XRvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemViewDelegate<T> itemViewDelegate = itemViewDelegateManager.getItemViewDelegate(viewType);
-        int layoutId = itemViewDelegate.getLayoutId();
+        RvItemViewDelegate<T> rvItemViewDelegate = rvItemViewDelegateManager.getItemViewDelegate(viewType);
+        int layoutId = rvItemViewDelegate.getLayoutId();
         XRvViewHolder xRvViewHolder = XRvViewHolder.createXRvViewHolder(context, parent, layoutId);
         onViewHolderCreated(xRvViewHolder, xRvViewHolder.getmConvertView());
         setListener(xRvViewHolder);
@@ -67,7 +67,18 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
 
     @Override
     public void onBindViewHolder(XRvViewHolder holder, int position) {
-        convert(holder, mDatas.get(position));
+
+    }
+
+    @Override
+    public void onBindViewHolder(XRvViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        System.out.println("p = " + payloads.toString());
+        if (payloads.isEmpty()) {
+            convert(holder, mDatas.get(position));
+        }else {
+            convertByPosi(holder,mDatas.get(position));
+        }
     }
 
     @Override
@@ -76,7 +87,19 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
     }
 
     private boolean useItemViewDelegateManager() {
-        return itemViewDelegateManager.getDelegateCount() > 0;
+        return rvItemViewDelegateManager.getDelegateCount() > 0;
+    }
+
+    public RvItemViewDelegate<T> getItemViewDelegate(int posi) {
+        return rvItemViewDelegateManager.getItemViewDelegate(rvItemViewDelegateManager.getItemViewType(mDatas.get(posi), posi));
+    }
+
+    private void convertByPosi(XRvViewHolder xRvViewHolder, T item) {
+        rvItemViewDelegateManager.convertByPosi(xRvViewHolder, item, xRvViewHolder.getAdapterPosition());
+    }
+
+    public void notifyItemByPosi(int posi){
+        notifyItemChanged(posi,1);
     }
 
     /**
@@ -90,16 +113,16 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
     }
 
     private void convert(XRvViewHolder holder, T item) {
-        itemViewDelegateManager.convert(holder, item, holder.getAdapterPosition());
+        rvItemViewDelegateManager.convert(holder, item, holder.getAdapterPosition());
     }
 
-    public XRvMultiItemTypeAdapter<T> addDelegate(ItemViewDelegate<T> itemViewDelegate) {
-        itemViewDelegateManager.addDelegate(itemViewDelegate);
+    public XRvMultiItemTypeAdapter<T> addDelegate(RvItemViewDelegate<T> rvItemViewDelegate) {
+        rvItemViewDelegateManager.addDelegate(rvItemViewDelegate);
         return this;
     }
 
-    public XRvMultiItemTypeAdapter<T> addDelegate(int type, ItemViewDelegate<T> itemViewDelegate) {
-        itemViewDelegateManager.addDelegate(type, itemViewDelegate);
+    public XRvMultiItemTypeAdapter<T> addDelegate(int type, RvItemViewDelegate<T> rvItemViewDelegate) {
+        rvItemViewDelegateManager.addDelegate(type, rvItemViewDelegate);
         return this;
     }
 

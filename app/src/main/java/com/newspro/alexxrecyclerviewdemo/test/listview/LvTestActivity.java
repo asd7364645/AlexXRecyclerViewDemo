@@ -24,7 +24,7 @@ public class LvTestActivity extends AppCompatActivity implements AdapterView.OnI
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            adapter.updateSingleRow(testListView, list.get(msg.arg2), msg.arg2);
+            adapter.updateSingleRow(testListView, msg.arg2);
         }
     };
 
@@ -46,7 +46,7 @@ public class LvTestActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        if (adapter.getItemDelegate(list.get(position),position) instanceof ComeDelegate) {
+        if (adapter.getItemDelegate(position) instanceof ComeDelegate) {
             new Thread(){
                 @Override
                 public void run() {

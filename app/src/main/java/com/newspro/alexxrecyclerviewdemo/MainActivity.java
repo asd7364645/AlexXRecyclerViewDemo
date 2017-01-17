@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.newspro.alexxrecyclerviewdemo.test.listview.LvTestActivity;
+import com.newspro.alexxrecyclerviewdemo.test.recyclerview.RvActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rvClick(View v) {
-
+        Intent intent = new Intent(this, RvActivity.class);
+        startActivity(intent);
     }
 
 }

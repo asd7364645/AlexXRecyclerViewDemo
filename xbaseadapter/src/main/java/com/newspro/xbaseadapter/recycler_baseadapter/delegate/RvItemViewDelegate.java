@@ -1,5 +1,6 @@
 package com.newspro.xbaseadapter.recycler_baseadapter.delegate;
 
+import com.newspro.xbaseadapter.ordinarylistview.XLvViewHolder;
 import com.newspro.xbaseadapter.recycler_baseadapter.XRvViewHolder;
 
 /**
@@ -7,7 +8,7 @@ import com.newspro.xbaseadapter.recycler_baseadapter.XRvViewHolder;
  * Alex
  */
 
-public interface ItemViewDelegate<T> {
+public interface RvItemViewDelegate<T> {
 
     /**
      * 设置item的布局id

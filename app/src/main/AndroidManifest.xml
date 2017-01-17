@@ -15,7 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".test.listview.LvTestActivity"></activity>
+        <activity android:name=".test.listview.LvTestActivity" />
+        <activity android:name=".test.recyclerview.RvActivity"></activity>
     </application>
 
 </manifest>

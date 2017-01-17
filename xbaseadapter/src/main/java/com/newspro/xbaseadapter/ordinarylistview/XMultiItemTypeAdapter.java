@@ -103,13 +103,17 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
         return itemViewDelegateManager.getItemViewDelegate(item, posi);
     }
 
+    public ItemViewDelegate<T> getItemDelegate(int posi) {
+        return itemViewDelegateManager.getItemViewDelegate(mDatas.get(posi), posi);
+    }
+
     /**
      * 局部刷新
+     *
      * @param mListView
-     * @param item
      * @param posi
      */
-    public void updateSingleRow(ListView mListView, T item, int posi) {
+    public void updateSingleRow(ListView mListView, int posi) {
         if (mListView != null) {
             int visiblePos = mListView.getFirstVisiblePosition();
             int offset = posi - visiblePos;
@@ -118,12 +122,13 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
             if ((offset < 0) || (offset >= lenth)) return;
             View convertView = mListView.getChildAt(offset);
             XLvViewHolder xLvViewHolder = (XLvViewHolder) convertView.getTag();
+            T item = mDatas.get(posi);
             convertByPosi(xLvViewHolder, item, posi);
         }
     }
 
     private void convertByPosi(XLvViewHolder xLvViewHolder, T item, int posi) {
-        itemViewDelegateManager.convertByPosi(xLvViewHolder,item,posi);
+        itemViewDelegateManager.convertByPosi(xLvViewHolder, item, posi);
     }
 
 
