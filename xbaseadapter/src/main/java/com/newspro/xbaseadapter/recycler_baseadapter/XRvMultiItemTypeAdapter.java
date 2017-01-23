@@ -21,8 +21,8 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
     private List<T> mDatas;
 
     private RvItemViewDelegateManager<T> rvItemViewDelegateManager;
-    private OnItemClickListener onItemClickListener;
-    private OnItemLongClickListener onItemLongClickListener;
+    protected OnItemClickListener onItemClickListener;
+    protected OnItemLongClickListener onItemLongClickListener;
 
     public XRvMultiItemTypeAdapter(Context context, List<T> mDatas) {
         this.context = context;
@@ -73,11 +73,10 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
     @Override
     public void onBindViewHolder(XRvViewHolder holder, int position, List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
-        System.out.println("p = " + payloads.toString());
-        if (payloads.isEmpty()) {
+        if (payloads == null || payloads.isEmpty()) {
             convert(holder, mDatas.get(position));
-        }else {
-            convertByPosi(holder,mDatas.get(position));
+        } else {
+            convertByPosi(holder, mDatas.get(position));
         }
     }
 
@@ -98,8 +97,8 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
         rvItemViewDelegateManager.convertByPosi(xRvViewHolder, item, xRvViewHolder.getAdapterPosition());
     }
 
-    public void notifyItemByPosi(int posi){
-        notifyItemChanged(posi,1);
+    public void notifyItemByPosi(int posi) {
+        notifyItemChanged(posi, 1);
     }
 
     /**
@@ -128,6 +127,10 @@ public class XRvMultiItemTypeAdapter<T> extends RecyclerView.Adapter<XRvViewHold
 
     public List<T> getmDatas() {
         return mDatas;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public interface OnItemClickListener {

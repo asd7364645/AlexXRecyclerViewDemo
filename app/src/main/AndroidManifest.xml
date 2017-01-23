@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".test.listview.LvTestActivity" />
-        <activity android:name=".test.recyclerview.RvActivity"></activity>
+        <activity android:name=".test.recyclerview.RvActivity" />
+        <activity android:name=".test.header_and_footer_test.HeaderAndFooterRvAct"></activity>
     </application>
 
 </manifest>

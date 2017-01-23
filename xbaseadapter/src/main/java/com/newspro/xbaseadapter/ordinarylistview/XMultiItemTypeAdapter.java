@@ -116,7 +116,7 @@ public class XMultiItemTypeAdapter<T> extends BaseAdapter {
     public void updateSingleRow(ListView mListView, int posi) {
         if (mListView != null) {
             int visiblePos = mListView.getFirstVisiblePosition();
-            int offset = posi - visiblePos;
+            int offset = posi - mListView.getHeaderViewsCount() - visiblePos;
             int lenth = mListView.getChildCount();
             // 只有在可见区域才更新,因为不在可见区域得不到Tag,会出现空指针,所以这是必须有的一个步骤
             if ((offset < 0) || (offset >= lenth)) return;

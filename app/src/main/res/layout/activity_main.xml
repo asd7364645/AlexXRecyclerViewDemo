@@ -23,5 +23,17 @@
         android:text="recyclerview万能适配器实例"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:onClick="rvHeaderClick"
+        android:id="@+id/mainHeaderRvTestBtn"
+        android:text="Header recyclerview万能适配器实例"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:onClick="pullClick"
+        android:id="@+id/mainpullTestBtn"
+        android:text="下拉刷新"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
