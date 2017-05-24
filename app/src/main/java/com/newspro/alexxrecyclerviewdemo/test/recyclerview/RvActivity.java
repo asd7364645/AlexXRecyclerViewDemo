@@ -39,10 +39,6 @@ public class RvActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rv);
         rvActRecyclerView = (RecyclerView) findViewById(R.id.rvActRecyclerView);
         users = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
-            users.add(new User(i%2==0,"alex" + i + "名"));
-        }
-
         adapter = new RvMultTestAdapter(this,users);
 
 //        adapter = new XHFRvBaseAdapter<User>(this,R.layout.item_test_lv,users) {
@@ -89,6 +85,28 @@ public class RvActivity extends AppCompatActivity {
         textView2.setText("header2");
 //        headerAndFooterWrapper.addHeaders(textView2);
         rvActRecyclerView.setAdapter(adapter);
+
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    sleep(1000);
+                    for (int i = 0; i < 40; i++) {
+                        users.add(new User(i%2==0,"alex" + i + "名"));
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
 
     }
 }
