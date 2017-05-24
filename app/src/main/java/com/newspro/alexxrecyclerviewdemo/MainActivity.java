@@ -31,4 +31,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void pullClick(View view) {
+    }
 }
